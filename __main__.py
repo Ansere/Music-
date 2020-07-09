@@ -68,6 +68,7 @@ async def leave(ctx):
 # plays song
 @bot.command(pass_context=True, aliases=['p', 'pla'])
 async def play(ctx, url: str):
+    global loopstate
     def check_queue():
         Queue_infile = os.path.isdir("./Queue")
         if Queue_infile is True:
@@ -75,6 +76,11 @@ async def play(ctx, url: str):
             DIR = os.path.abspath(os.path.realpath("Queue"))
             length = len(os.listdir(DIR))
             still_q = length - 1
+            if loopstate:
+                    if os.listdir(DIR)[-1][5].isdigit():
+                        shutil.rename(first_file, "song" + os.listdir(DIR)[-1][5] + ".mp3)
+                    else:
+                        shutil.rename(first_file, "song1.mp3")
             try:
                 first_file = os.listdir(DIR)[0]
             except:
