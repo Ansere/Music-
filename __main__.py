@@ -96,10 +96,6 @@ async def play(ctx, url: str):
                 voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
                 voice.source = discord.PCMVolumeTransformer(voice.source)
                 voice.source.volume = 0.50
-                while(loopstate):
-                    voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
-                    voice.source = discord.PCMVolumeTransformer(voice.source)
-                    voice.source.volume = 0.50
             else:
                 queueDictionary.clear()
                 return
@@ -159,6 +155,10 @@ async def play(ctx, url: str):
     voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: check_queue())
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.50
+    while loopstate:
+        voice.play(discord.FFmpegPCMAudio("song.mp3"))
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume = 0.50
     try:
         nname = name.rsplit("-", 2)
         await ctx.send(f"Playing: {nname[0]}.")
